@@ -1,0 +1,130 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Quản Lý Chuyên Ngành Nhân Viên</title>-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--    <style>-->
+<!--        .container {-->
+<!--            margin-top: 50px;-->
+<!--        }-->
+<!--        .form-group {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h2>Quản Lý Chuyên Ngành Nhân Viên</h2>-->
+<!--    <form id="ganChuyenNganhForm">-->
+<!--        <div class="form-group">-->
+<!--            <label for="coSoSelect">Chọn Cơ Sở:</label>-->
+<!--            <select class="form-control" id="coSoSelect" name="coSoId">-->
+<!--                <option value="">Chọn Cơ Sở</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="boMonSelect">Chọn Bộ Môn:</label>-->
+<!--            <select class="form-control" id="boMonSelect" name="boMonCoSoId" disabled>-->
+<!--                <option value="">Chọn Bộ Môn</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="chuyenNganhSelect">Chọn Chuyên Ngành:</label>-->
+<!--            <select class="form-control" id="chuyenNganhSelect" name="chuyenNganhBoMonCoSoId" disabled>-->
+<!--                <option value="">Chọn Chuyên Ngành</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="nhanVienId">Chọn Nhân Viên:</label>-->
+<!--            <input type="text" class="form-control" id="nhanVienId" name="nhanVienId" placeholder="Nhập ID nhân viên" required>-->
+<!--        </div>-->
+
+<!--        <button type="submit" class="btn btn-primary">Gán Chuyên Ngành</button>-->
+<!--    </form>-->
+
+<!--    <div id="resultMessage" style="margin-top: 20px;"></div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $.ajax({-->
+<!--            url: '/api/co-so',-->
+<!--            method: 'GET',-->
+<!--            success: function(data) {-->
+<!--                data.forEach(function(coSo) {-->
+<!--                    $('#coSoSelect').append('<option value="' + coSo.id + '">' + coSo.name + '</option>');-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+
+<!--        $('#coSoSelect').change(function() {-->
+<!--            const coSoId = $(this).val();-->
+<!--            $('#boMonSelect').prop('disabled', !coSoId);-->
+<!--            $('#boMonSelect').html('<option value="">Chọn Bộ Môn</option>');-->
+
+<!--            if (coSoId) {-->
+<!--                $.ajax({-->
+<!--                    url: '/api/chuyen-nganh/bo-mon?coSoId=' + coSoId,-->
+<!--                    method: 'GET',-->
+<!--                    success: function(data) {-->
+<!--                        data.forEach(function(boMon) {-->
+<!--                            $('#boMonSelect').append('<option value="' + boMon.id + '">' + boMon.name + '</option>');-->
+<!--                        });-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+
+<!--        $('#boMonSelect').change(function() {-->
+<!--            const boMonCoSoId = $(this).val();-->
+<!--            $('#chuyenNganhSelect').prop('disabled', !boMonCoSoId);-->
+<!--            $('#chuyenNganhSelect').html('<option value="">Chọn Chuyên Ngành</option>');-->
+
+<!--            if (boMonCoSoId) {-->
+<!--                $.ajax({-->
+<!--                    url: '/api/chuyen-nganh/chuyen-nganh?boMonCoSoId=' + boMonCoSoId,-->
+<!--                    method: 'GET',-->
+<!--                    success: function(data) {-->
+<!--                        data.forEach(function(chuyenNganh) {-->
+<!--                            $('#chuyenNganhSelect').append('<option value="' + chuyenNganh.id + '">' + chuyenNganh.name + '</option>');-->
+<!--                        });-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+
+<!--        $('#ganChuyenNganhForm').submit(function(e) {-->
+<!--            e.preventDefault();-->
+
+<!--            const nhanVienId = $('#nhanVienId').val();-->
+<!--            const chuyenNganhBoMonCoSoId = $('#chuyenNganhSelect').val();-->
+
+<!--            if (!nhanVienId || !chuyenNganhBoMonCoSoId) {-->
+<!--                $('#resultMessage').html('<div class="alert alert-danger">Vui lòng chọn đủ thông tin!</div>');-->
+<!--                return;-->
+<!--            }-->
+
+<!--            $.ajax({-->
+<!--                url: '/api/chuyen-nganh/gan',-->
+<!--                method: 'POST',-->
+<!--                data: {-->
+<!--                    nhanVienId: nhanVienId,-->
+<!--                    chuyenNganhBoMonCoSoId: chuyenNganhBoMonCoSoId-->
+<!--                },-->
+<!--                success: function(response) {-->
+<!--                    $('#resultMessage').html('<div class="alert alert-success">' + response + '</div>');-->
+<!--                },-->
+<!--                error: function(xhr) {-->
+<!--                    $('#resultMessage').html('<div class="alert alert-danger">' + xhr.responseText + '</div>');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
